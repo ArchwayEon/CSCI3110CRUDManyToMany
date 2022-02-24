@@ -22,7 +22,7 @@ public class DbStudentCourseRepository : IStudentCourseRepository
     {
         return _db.StudentCourseGrades
            .Include(scg => scg.Student)
-              .ThenInclude(s => s.Internship)
+              .ThenInclude(s => s!.Internship)
            .Include(scg => scg.Course)
            .FirstOrDefault(scg => scg.Id == id);
     }
@@ -31,7 +31,7 @@ public class DbStudentCourseRepository : IStudentCourseRepository
     {
         return _db.StudentCourseGrades
            .Include(scg => scg.Student)
-              .ThenInclude(s => s.Internship)
+              .ThenInclude(s => s!.Internship)
            .Include(scg => scg.Course)
            .ToList();
     }
