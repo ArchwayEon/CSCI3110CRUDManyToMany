@@ -9,6 +9,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
       options.UseSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<Initializer>();
+builder.Services.AddScoped<IStudentRepository, DbStudentRepository>();
 
 var app = builder.Build();
 SeedData(app);
