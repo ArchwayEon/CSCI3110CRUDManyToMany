@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Course>
+
+@{
+    var student = (Student?)ViewData["Student"];
+    ViewData["Title"] = 
+        $"Register course for {student!.FirstName} {student!.LastName}";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Code)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreditHours)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Code)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreditHours)
+                    </td>
+                    <td>
+                        <a asp-action="create" asp-controller="StudentCourse"
+                            asp-route-id="@student!.ENumber" 
+                            asp-route-courseId="@item.Id">Register</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+<div>
+    <a asp-action="Details" asp-controller="Student" asp-route-id="@student.ENumber">Back to Student Details</a>
+</div>

@@ -10,6 +10,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
         builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<Initializer>();
 builder.Services.AddScoped<IStudentRepository, DbStudentRepository>();
+builder.Services.AddScoped<ICourseRepository, DbCourseRepository>();
+builder.Services.AddScoped<IStudentCourseRepository, DbStudentCourseRepository>();
 
 var app = builder.Build();
 SeedData(app);
@@ -31,7 +33,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}/{courseId?}");
 
 app.Run();
 
