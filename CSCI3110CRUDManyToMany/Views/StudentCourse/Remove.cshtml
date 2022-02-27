@@ -1,0 +1,21 @@
+﻿@model StudentCourseGrade
+
+@{
+    var student = Model!.Student;
+    var course = Model!.Course;
+    ViewData["Title"] = "Please confirm removing course";
+    var question = $"Are you sure you want to remove {course!.Code} " +
+        $"from {student!.FirstName} {student!.LastName}?";
+}
+<h2>@ViewData["Title"]</h2>
+<h3>@question</h3>
+<div>
+    <form asp-action="Remove">
+        <input type="hidden" name="studentCourseId" value="@Model!.Id" />
+        <input type="hidden" name="ENumber" value="@student!.ENumber" />
+        <input type="submit" value="Yes, Remove Course" class="btn btn-danger" /> |
+        <a asp-action="Details" asp-controller="Student" asp-route-id="@student!.ENumber">
+            Back to Student Details
+        </a>
+    </form>
+</div>

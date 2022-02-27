@@ -64,6 +64,10 @@
                         <a asp-action="assigngrade" asp-controller="StudentCourse"
                             asp-route-id="@Model!.ENumber" asp-route-courseId="@item.CourseId">
                             Assign Grade
+                        </a> |
+                        <a asp-action="remove" asp-controller="StudentCourse"
+                            asp-route-id="@Model!.ENumber" asp-route-courseId="@item.CourseId">
+                            Remove Course
                         </a>
                     </td>
                 </tr>

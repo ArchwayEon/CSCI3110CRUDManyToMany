@@ -77,5 +77,16 @@ public class DbStudentCourseRepository : IStudentCourseRepository
             _db.SaveChanges();
         }
     }
+
+    public void Remove(string enumber, int studentCourseId)
+    {
+        var student = _studentRepo.Read(enumber);
+        var studentCourse = student!.CourseGrades
+            .FirstOrDefault(scg => scg.Id == studentCourseId);
+        var course = studentCourse!.Course;
+        student!.CourseGrades.Remove(studentCourse);
+        course!.StudentGrades.Remove(studentCourse);
+        _db.SaveChanges();
+    }
 }
 

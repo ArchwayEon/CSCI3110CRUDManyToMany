@@ -8,6 +8,7 @@ public interface IStudentCourseRepository
     ICollection<StudentCourseGrade> ReadAll();
     StudentCourseGrade? Create(string enumber, int courseId);
     void UpdateStudentGrade(int studentCourseId, string letterGrade);
+    void Remove(string enumber, int studentCourseId);
 }
 
 

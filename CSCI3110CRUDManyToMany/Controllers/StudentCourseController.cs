@@ -75,5 +75,29 @@ public class StudentCourseController : Controller
         _studentCourseRepo.UpdateStudentGrade(studentCourseId, LetterGrade);
         return RedirectToAction("Details", "Student", new { id = ENumber });
     }
+
+    public IActionResult Remove([Bind(Prefix = "id")] string ENumber, int courseId)
+    {
+        var student = _studentRepo.Read(ENumber);
+        if (student == null)
+        {
+            return RedirectToAction("Index", "Student");
+        }
+        var studentCourse = student.CourseGrades
+            .FirstOrDefault(scg => scg.CourseId == courseId);
+        if (studentCourse == null)
+        {
+            return RedirectToAction("Details", "Student", new { id = ENumber });
+        }
+        return View(studentCourse);
+    }
+
+    [HttpPost, ValidateAntiForgeryToken, ActionName("Remove")]
+    public IActionResult RemoveConfirmed(
+        string ENumber, int studentCourseId)
+    {
+        _studentCourseRepo.Remove(ENumber, studentCourseId);
+        return RedirectToAction("Details", "Student", new { id = ENumber });
+    }
 }
 
