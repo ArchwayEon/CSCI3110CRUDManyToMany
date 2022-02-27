@@ -61,6 +61,10 @@
                         @item.LetterGrade
                     </td>
                     <td>
+                        <a asp-action="assigngrade" asp-controller="StudentCourse"
+                            asp-route-id="@Model!.ENumber" asp-route-courseId="@item.CourseId">
+                            Assign Grade
+                        </a>
                     </td>
                 </tr>
             }

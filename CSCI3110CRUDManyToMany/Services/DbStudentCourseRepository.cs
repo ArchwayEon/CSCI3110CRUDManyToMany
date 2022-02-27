@@ -67,5 +67,15 @@ public class DbStudentCourseRepository : IStudentCourseRepository
         _db.SaveChanges();
         return studentCourseGrade;
     }
+
+    public void UpdateStudentGrade(int studentCourseId, string letterGrade)
+    {
+        var studentCourse = Read(studentCourseId);
+        if(studentCourse != null)
+        {
+            studentCourse.LetterGrade = letterGrade;
+            _db.SaveChanges();
+        }
+    }
 }
 

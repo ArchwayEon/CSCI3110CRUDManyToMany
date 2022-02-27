@@ -1,0 +1,42 @@
+﻿@model StudentCourseGrade
+
+@{
+    var student = Model!.Student;
+    var course = Model!.Course;
+    ViewData["Title"] = $"Assigning grade to {student!.FirstName} {student!.LastName}" +
+        $" for course {course!.Code}";
+}
+
+<h4>@ViewData["Title"]</h4>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AssignGrade">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" name="studentCourseId" value="@Model!.Id" />
+            <input type="hidden" name="ENumber" value="@student!.ENumber" />
+            <div class="form-group">
+                <label asp-for="LetterGrade" class="control-label"></label>
+                <select asp-for="LetterGrade" class="form-select">
+                    <option value="U">Ungraded</option>
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="D">D</option>
+                    <option value="A">F</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Assign Grade" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Details" asp-controller="Student" 
+        asp-route-id="@student!.ENumber">Back to Student Details</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

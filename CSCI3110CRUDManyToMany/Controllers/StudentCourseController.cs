@@ -11,29 +11,29 @@ public class StudentCourseController : Controller
     private readonly IStudentCourseRepository _studentCourseRepo;
 
     public StudentCourseController(
-        IStudentRepository studentRepo, 
-        ICourseRepository courseRepo, 
+        IStudentRepository studentRepo,
+        ICourseRepository courseRepo,
         IStudentCourseRepository studentCourseRepo)
     {
         _studentRepo = studentRepo;
         _courseRepo = courseRepo;
         _studentCourseRepo = studentCourseRepo;
     }
-    public IActionResult Create([Bind(Prefix ="id")]string ENumber, int courseId)
+    public IActionResult Create([Bind(Prefix = "id")] string ENumber, int courseId)
     {
         var student = _studentRepo.Read(ENumber);
-        if(student == null)
+        if (student == null)
         {
             return RedirectToAction("Index", "Student");
         }
         var course = _courseRepo.Read(courseId);
-        if(course == null)
+        if (course == null)
         {
-            return RedirectToAction("Details", "Student", new {id = ENumber});
+            return RedirectToAction("Details", "Student", new { id = ENumber });
         }
         var studentCourse = student.CourseGrades
             .SingleOrDefault(scg => scg.CourseId == courseId);
-        if(studentCourse != null)
+        if (studentCourse != null)
         {
             return RedirectToAction("Details", "Student", new { id = ENumber });
         }
@@ -49,6 +49,30 @@ public class StudentCourseController : Controller
     public IActionResult CreateConfirmed(string ENumber, int courseId)
     {
         _studentCourseRepo.Create(ENumber, courseId);
+        return RedirectToAction("Details", "Student", new { id = ENumber });
+    }
+
+    public IActionResult AssignGrade([Bind(Prefix ="id")]string ENumber, int courseId)
+    {
+        var student = _studentRepo.Read(ENumber);
+        if (student == null)
+        {
+            return RedirectToAction("Index", "Student");
+        }
+        var studentCourse = student.CourseGrades
+            .FirstOrDefault(scg => scg.CourseId==courseId);
+        if (studentCourse == null)
+        {
+            return RedirectToAction("Details", "Student", new { id = ENumber });
+        }
+        return View(studentCourse);
+    }
+
+    [HttpPost, ValidateAntiForgeryToken, ActionName("AssignGrade")]
+    public IActionResult AssignGradedConfirmed(
+        string ENumber, int studentCourseId, string LetterGrade)
+    {
+        _studentCourseRepo.UpdateStudentGrade(studentCourseId, LetterGrade);
         return RedirectToAction("Details", "Student", new { id = ENumber });
     }
 }

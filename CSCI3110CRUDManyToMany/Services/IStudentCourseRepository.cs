@@ -7,6 +7,7 @@ public interface IStudentCourseRepository
     StudentCourseGrade? Read(int id);
     ICollection<StudentCourseGrade> ReadAll();
     StudentCourseGrade? Create(string enumber, int courseId);
+    void UpdateStudentGrade(int studentCourseId, string letterGrade);
 }
 
 
