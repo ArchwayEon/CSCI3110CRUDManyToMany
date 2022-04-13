@@ -26,6 +26,7 @@ public class StudentCourseAPIController : ControllerBase
     public IActionResult Post([FromForm] string ENumber, [FromForm]int courseId)
     {
         var studentCourseGrade = _studentCourseRepo.Create(ENumber, courseId);
+        // Remove the circular reference for the JSON
         studentCourseGrade?.Student?.CourseGrades.Clear();
         studentCourseGrade?.Course?.StudentGrades.Clear();
         return CreatedAtAction("Get", 
