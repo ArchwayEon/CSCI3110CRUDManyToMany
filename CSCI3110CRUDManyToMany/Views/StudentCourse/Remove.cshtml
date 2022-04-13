@@ -10,7 +10,7 @@
 <h2>@ViewData["Title"]</h2>
 <h3>@question</h3>
 <div>
-    <form asp-action="Remove">
+    <form asp-action="Remove" id="formRemove">
         <input type="hidden" name="studentCourseId" value="@Model!.Id" />
         <input type="hidden" name="ENumber" value="@student!.ENumber" />
         <input type="submit" value="Yes, Remove Course" class="btn btn-danger" /> |
@@ -19,3 +19,7 @@
         </a>
     </form>
 </div>
+
+@section Scripts {
+    <script defer src="~/js/studentCourseRemove.js"></script>
+}

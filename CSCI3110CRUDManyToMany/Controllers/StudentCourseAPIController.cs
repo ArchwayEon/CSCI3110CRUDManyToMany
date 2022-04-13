@@ -43,5 +43,15 @@ public class StudentCourseAPIController : ControllerBase
         return NoContent(); // 204 as per HTTP specification
     }
 
+    [HttpDelete("remove")]
+    public IActionResult Delete(
+        [FromForm] string ENumber,
+        [FromForm] int studentCourseId)
+    {
+        _studentCourseRepo.Remove(ENumber, studentCourseId);
+        return NoContent(); // 204 as per HTTP specification
+    }
+
+
 
 }
