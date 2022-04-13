@@ -33,4 +33,15 @@ public class StudentCourseAPIController : ControllerBase
             new { id = studentCourseGrade?.Id }, studentCourseGrade);
     }
 
+    [HttpPut("assigngrade")]
+    public IActionResult Put(
+        [FromForm] string ENumber,
+        [FromForm] int studentCourseId,
+        [FromForm] string LetterGrade)
+    {
+        _studentCourseRepo.UpdateStudentGrade(studentCourseId, LetterGrade);
+        return NoContent(); // 204 as per HTTP specification
+    }
+
+
 }

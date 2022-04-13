@@ -1,5 +1,5 @@
 ﻿"use strict";
-(function _studentCourseGrade() {
+(function _studentCourseCreate() {
     const formCreateStudentCourse =
         document.querySelector("#formCreateStudentCourse");
     formCreateStudentCourse.addEventListener('submit', e => {

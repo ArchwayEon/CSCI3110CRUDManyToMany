@@ -10,7 +10,7 @@
 <h4>@ViewData["Title"]</h4>
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="AssignGrade">
+        <form asp-action="AssignGrade" id="formAssignGrade">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" name="studentCourseId" value="@Model!.Id" />
             <input type="hidden" name="ENumber" value="@student!.ENumber" />
@@ -38,5 +38,6 @@
 </div>
 
 @section Scripts {
+    <script defer src="~/js/studentCourseAssignGrade.js"></script>
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
