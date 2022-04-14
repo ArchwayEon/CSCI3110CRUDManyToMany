@@ -1,0 +1,27 @@
+﻿@{
+    ViewData["Title"] = "Student Course Report";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Student
+            </th>
+            <th>
+                Course
+            </th>
+            <th>
+                Grade
+            </th>
+        </tr>
+    </thead>
+    <tbody id="tableBody">
+    </tbody>
+</table>
+
+@section Scripts{
+    <script defer src="~/js/studentCourseIndex.js"></script>
+}

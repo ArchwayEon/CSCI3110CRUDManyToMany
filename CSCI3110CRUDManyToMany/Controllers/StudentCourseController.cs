@@ -19,6 +19,12 @@ public class StudentCourseController : Controller
         _courseRepo = courseRepo;
         _studentCourseRepo = studentCourseRepo;
     }
+
+    public IActionResult Index()
+    {
+        return View();
+    }
+
     public IActionResult Create([Bind(Prefix = "id")] string ENumber, int courseId)
     {
         var student = _studentRepo.Read(ENumber);

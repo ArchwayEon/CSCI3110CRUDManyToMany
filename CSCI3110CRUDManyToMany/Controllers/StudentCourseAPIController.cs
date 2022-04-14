@@ -52,6 +52,24 @@ public class StudentCourseAPIController : ControllerBase
         return NoContent(); // 204 as per HTTP specification
     }
 
+    [HttpGet("studentgradesreport")]
+    public IActionResult Get()
+    {
+        var students = _studentRepo.ReadAll();
+        var studentCourseGrades =
+           _studentCourseRepo.ReadAll();
+        var model = from s in students
+                    join scg in studentCourseGrades
+                        on s.ENumber equals scg.StudentENumber
+                    orderby s.LastName, s.FirstName
+                    select new 
+                    {
+                        StudentName = s.FirstName + " " + s.LastName,
+                        CourseFullCode = scg.Course!.Code,
+                        scg.LetterGrade
+                    };
 
+        return Ok(model);
+    }
 
 }
