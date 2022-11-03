@@ -3,6 +3,8 @@
 export class FetchRepository {
     #baseURL
     #deleteAPIName
+    #readAllAPIName
+    #updateAPIName
     constructor(baseURL) {
         this.#baseURL = baseURL;
         this.#readAllAPIName = "all";
