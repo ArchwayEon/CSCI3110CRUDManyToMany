@@ -1,19 +1,18 @@
 ﻿"use strict";
-(function _studentCourseIndex() {
-    const url = "/api/studentcourseapi/studentgradesreport";
-    fetch(url)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('There was a network error!');
-            }
-            return response.json();
-        })
-        .then(result => {
-            populateTable(result);
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
+
+import { FetchRepository } from "./FetchRepository";
+
+(async function _studentCourseIndex() {
+    const repo = new FetchRepository("/api/studentcourseapi");
+    repo.readAllAPIName = "studentgradesreport";
+
+    try {
+        const result = await repo.readAll();
+        populateTable(result);
+    }
+    catch(error){
+        console.error('Error:', error);
+    }
 })();
 
 function populateTable(result) {

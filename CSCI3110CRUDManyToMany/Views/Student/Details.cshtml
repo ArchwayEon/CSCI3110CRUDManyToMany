@@ -25,8 +25,8 @@
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
     <a asp-action="Register" asp-controller="Course" asp-route-id="@Model!.ENumber">Register Course</a> |
+    <a asp-action="Index" asp-controller="StudentCourse">Students Grade Report</a> |
     <a asp-action="Index">Back to Student List</a>
 </div>
 <h3>Registered Courses</h3>
