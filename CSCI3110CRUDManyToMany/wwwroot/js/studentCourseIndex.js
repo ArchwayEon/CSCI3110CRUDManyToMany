@@ -1,6 +1,6 @@
 ﻿"use strict";
 
-import { FetchRepository } from "./FetchRepository";
+import { FetchRepository } from "./FetchRepository.js";
 
 (async function _studentCourseIndex() {
     const repo = new FetchRepository("/api/studentcourseapi");

@@ -23,9 +23,9 @@ public class StudentCourseAPIController : ControllerBase
     }
 
     [HttpPost("create")]
-    public IActionResult Post([FromForm] string ENumber, [FromForm]int courseId)
+    public async Task<IActionResult> PostAsync([FromForm] string ENumber, [FromForm]int courseId)
     {
-        var studentCourseGrade = _studentCourseRepo.Create(ENumber, courseId);
+        var studentCourseGrade = await _studentCourseRepo.CreateAsync(ENumber, courseId);
         // Remove the circular reference for the JSON
         studentCourseGrade?.Student?.CourseGrades.Clear();
         studentCourseGrade?.Course?.StudentGrades.Clear();
@@ -34,30 +34,30 @@ public class StudentCourseAPIController : ControllerBase
     }
 
     [HttpPut("assigngrade")]
-    public IActionResult Put(
+    public async Task<IActionResult> PutAsync(
         [FromForm] string ENumber,
         [FromForm] int studentCourseId,
         [FromForm] string LetterGrade)
     {
-        _studentCourseRepo.UpdateStudentGrade(studentCourseId, LetterGrade);
+        await _studentCourseRepo.UpdateStudentGradeAsync(studentCourseId, LetterGrade);
         return NoContent(); // 204 as per HTTP specification
     }
 
     [HttpDelete("remove")]
-    public IActionResult Delete(
+    public async Task<IActionResult> DeleteAsync(
         [FromForm] string ENumber,
         [FromForm] int studentCourseId)
     {
-        _studentCourseRepo.Remove(ENumber, studentCourseId);
+        await _studentCourseRepo.RemoveAsync(ENumber, studentCourseId);
         return NoContent(); // 204 as per HTTP specification
     }
 
     [HttpGet("studentgradesreport")]
-    public IActionResult Get()
+    public async Task<IActionResult> GetAsync()
     {
-        var students = _studentRepo.ReadAll();
+        var students = await _studentRepo.ReadAllAsync();
         var studentCourseGrades =
-           _studentCourseRepo.ReadAll();
+           await _studentCourseRepo.ReadAllAsync();
         var model = from s in students
                     join scg in studentCourseGrades
                         on s.ENumber equals scg.StudentENumber

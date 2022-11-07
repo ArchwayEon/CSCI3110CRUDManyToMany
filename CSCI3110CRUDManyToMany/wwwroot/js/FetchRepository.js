@@ -21,7 +21,7 @@ export class FetchRepository {
     }
 
     set readAllAPIName(name) {
-        this.#updateAPIName = name;
+        this.#readAllAPIName = name;
     }
 
     async readAll() {

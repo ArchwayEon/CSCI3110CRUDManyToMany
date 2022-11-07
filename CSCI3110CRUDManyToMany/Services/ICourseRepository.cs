@@ -4,7 +4,7 @@ namespace CSCI3110CRUDManyToMany.Services;
 
 public interface ICourseRepository
 {
-    Course? Read(int id);
-    ICollection<Course> ReadAll();
+    Task<Course?> ReadAsync(int id);
+    Task<ICollection<Course>> ReadAllAsync();
 }
 

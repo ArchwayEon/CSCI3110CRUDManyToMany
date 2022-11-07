@@ -18,27 +18,27 @@ public class DbStudentCourseRepository : IStudentCourseRepository
         _courseRepo = courseRepo;
     }
 
-    public StudentCourseGrade? Read(int id)
+    public async Task<StudentCourseGrade?> ReadAsync(int id)
     {
-        return _db.StudentCourseGrades
+        return await _db.StudentCourseGrades
            .Include(scg => scg.Student)
               .ThenInclude(s => s!.Internship)
            .Include(scg => scg.Course)
-           .FirstOrDefault(scg => scg.Id == id);
+           .FirstOrDefaultAsync(scg => scg.Id == id);
     }
 
-    public ICollection<StudentCourseGrade> ReadAll()
+    public async Task<ICollection<StudentCourseGrade>> ReadAllAsync()
     {
-        return _db.StudentCourseGrades
+        return await _db.StudentCourseGrades
            .Include(scg => scg.Student)
               .ThenInclude(s => s!.Internship)
            .Include(scg => scg.Course)
-           .ToList();
+           .ToListAsync();
     }
 
-    public StudentCourseGrade? Create(string enumber, int courseId)
+    public async Task<StudentCourseGrade?> CreateAsync(string enumber, int courseId)
     {
-        var student = _studentRepo.Read(enumber);
+        var student = await _studentRepo.ReadAsync(enumber);
         if(student == null)
         {
             // The student was not found
@@ -51,7 +51,7 @@ public class DbStudentCourseRepository : IStudentCourseRepository
             // The student already has a course grade for this course
             return null;
         }
-        var course = _courseRepo.Read(courseId);
+        var course = await _courseRepo.ReadAsync(courseId);
         if(course == null)
         {
             // The course was not found
@@ -68,9 +68,10 @@ public class DbStudentCourseRepository : IStudentCourseRepository
         return studentCourseGrade;
     }
 
-    public void UpdateStudentGrade(int studentCourseId, string letterGrade)
+    public async Task UpdateStudentGradeAsync(
+        int studentCourseId, string letterGrade)
     {
-        var studentCourse = Read(studentCourseId);
+        var studentCourse = await ReadAsync(studentCourseId);
         if(studentCourse != null)
         {
             studentCourse.LetterGrade = letterGrade;
@@ -78,9 +79,9 @@ public class DbStudentCourseRepository : IStudentCourseRepository
         }
     }
 
-    public void Remove(string enumber, int studentCourseId)
+    public async Task RemoveAsync(string enumber, int studentCourseId)
     {
-        var student = _studentRepo.Read(enumber);
+        var student = await _studentRepo.ReadAsync(enumber);
         var studentCourse = student!.CourseGrades
             .FirstOrDefault(scg => scg.Id == studentCourseId);
         var course = studentCourse!.Course;

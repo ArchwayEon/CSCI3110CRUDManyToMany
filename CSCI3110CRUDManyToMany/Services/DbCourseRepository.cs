@@ -11,20 +11,20 @@ public class DbCourseRepository : ICourseRepository
     {
         _db = db;
     }
-    public Course? Read(int id)
+    public async Task<Course?> ReadAsync(int id)
     {
-        return _db.Courses
+        return await _db.Courses
            .Include(s => s.StudentGrades)
               .ThenInclude(scg => scg.Student)
-           .FirstOrDefault(c => c.Id == id);
+           .FirstOrDefaultAsync(c => c.Id == id);
     }
 
-    public ICollection<Course> ReadAll()
+    public async Task<ICollection<Course>> ReadAllAsync()
     {
-        return _db.Courses
+        return await _db.Courses
            .Include(s => s.StudentGrades)
               .ThenInclude(scg => scg.Student)
-           .ToList();
+           .ToListAsync();
     }
 }
 

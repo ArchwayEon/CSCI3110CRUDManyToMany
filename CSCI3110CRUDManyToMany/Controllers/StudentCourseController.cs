@@ -25,14 +25,15 @@ public class StudentCourseController : Controller
         return View();
     }
 
-    public IActionResult Create([Bind(Prefix = "id")] string ENumber, int courseId)
+    public async Task<IActionResult> Create(
+        [Bind(Prefix = "id")] string ENumber, int courseId)
     {
-        var student = _studentRepo.Read(ENumber);
+        var student = await _studentRepo.ReadAsync(ENumber);
         if (student == null)
         {
             return RedirectToAction("Index", "Student");
         }
-        var course = _courseRepo.Read(courseId);
+        var course = await _courseRepo.ReadAsync(courseId);
         if (course == null)
         {
             return RedirectToAction("Details", "Student", new { id = ENumber });
@@ -52,15 +53,16 @@ public class StudentCourseController : Controller
     }
 
     [HttpPost, ValidateAntiForgeryToken, ActionName("Create")]
-    public IActionResult CreateConfirmed(string ENumber, int courseId)
+    public async Task<IActionResult> CreateConfirmed(string ENumber, int courseId)
     {
-        _studentCourseRepo.Create(ENumber, courseId);
+        await _studentCourseRepo.CreateAsync(ENumber, courseId);
         return RedirectToAction("Details", "Student", new { id = ENumber });
     }
 
-    public IActionResult AssignGrade([Bind(Prefix ="id")]string ENumber, int courseId)
+    public async Task<IActionResult> AssignGrade(
+        [Bind(Prefix ="id")]string ENumber, int courseId)
     {
-        var student = _studentRepo.Read(ENumber);
+        var student = await _studentRepo.ReadAsync(ENumber);
         if (student == null)
         {
             return RedirectToAction("Index", "Student");
@@ -75,16 +77,18 @@ public class StudentCourseController : Controller
     }
 
     [HttpPost, ValidateAntiForgeryToken, ActionName("AssignGrade")]
-    public IActionResult AssignGradedConfirmed(
+    public async Task<IActionResult> AssignGradeConfirmed(
         string ENumber, int studentCourseId, string LetterGrade)
     {
-        _studentCourseRepo.UpdateStudentGrade(studentCourseId, LetterGrade);
+        await _studentCourseRepo.UpdateStudentGradeAsync(
+            studentCourseId, LetterGrade);
         return RedirectToAction("Details", "Student", new { id = ENumber });
     }
 
-    public IActionResult Remove([Bind(Prefix = "id")] string ENumber, int courseId)
+    public async Task<IActionResult> Remove(
+        [Bind(Prefix = "id")] string ENumber, int courseId)
     {
-        var student = _studentRepo.Read(ENumber);
+        var student = await _studentRepo.ReadAsync(ENumber);
         if (student == null)
         {
             return RedirectToAction("Index", "Student");
@@ -99,10 +103,10 @@ public class StudentCourseController : Controller
     }
 
     [HttpPost, ValidateAntiForgeryToken, ActionName("Remove")]
-    public IActionResult RemoveConfirmed(
+    public async Task<IActionResult> RemoveConfirmed(
         string ENumber, int studentCourseId)
     {
-        _studentCourseRepo.Remove(ENumber, studentCourseId);
+        await _studentCourseRepo.RemoveAsync(ENumber, studentCourseId);
         return RedirectToAction("Details", "Student", new { id = ENumber });
     }
 }

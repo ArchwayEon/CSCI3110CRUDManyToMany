@@ -11,22 +11,22 @@ public class DbStudentRepository : IStudentRepository
     {
         _db = db;
     }
-    public Student? Read(string enumber)
+    public async Task<Student?> ReadAsync(string enumber)
     {
-        return _db.Students
+        return await _db.Students
            .Include(s => s.CourseGrades)
               .ThenInclude(scg => scg.Course)
            .Include(s => s.Internship)
-           .FirstOrDefault(s => s.ENumber == enumber);
+           .FirstOrDefaultAsync(s => s.ENumber == enumber);
     }
 
-    public ICollection<Student> ReadAll()
+    public async Task<ICollection<Student>> ReadAllAsync()
     {
-        return _db.Students
+        return await _db.Students
            .Include(s => s.CourseGrades)
               .ThenInclude(scg => scg.Course)
            .Include(s => s.Internship)
-           .ToList();
+           .ToListAsync();
     }
 }
 

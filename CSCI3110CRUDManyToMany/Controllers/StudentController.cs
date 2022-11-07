@@ -12,14 +12,14 @@ public class StudentController : Controller
         _studentRepo = studentRepo;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        return View(_studentRepo.ReadAll());
+        return View(await _studentRepo.ReadAllAsync());
     }
 
-    public IActionResult Details(string id)
+    public async Task<IActionResult> Details(string id)
     {
-        var student = _studentRepo.Read(id);
+        var student = await _studentRepo.ReadAsync(id);
         if(student == null)
         {
             return RedirectToAction("Index");

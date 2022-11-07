@@ -14,14 +14,15 @@ public class CourseController : Controller
         _courseRepo = courseRepo;
     }
 
-    public IActionResult Register([Bind(Prefix ="id")]string studentId)
+    public async Task<IActionResult> Register(
+        [Bind(Prefix ="id")]string studentId)
     {
-        var student = _studentRepo.Read(studentId);
+        var student = await _studentRepo.ReadAsync(studentId);
         if(student == null)
         {
             return RedirectToAction("Index", "Student");
         }
-        var allCourses = _courseRepo.ReadAll();
+        var allCourses = await _courseRepo.ReadAllAsync();
         var coursesRegistered = student.CourseGrades
             .Select(scg => scg.Course).ToList();
         var coursesNotRegistered = allCourses.Except(coursesRegistered);

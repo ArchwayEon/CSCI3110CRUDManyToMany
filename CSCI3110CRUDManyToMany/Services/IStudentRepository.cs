@@ -4,8 +4,8 @@ namespace CSCI3110CRUDManyToMany.Services;
 
 public interface IStudentRepository
 {
-    Student? Read(string enumber);
-    ICollection<Student> ReadAll();
+    Task<Student?> ReadAsync(string enumber);
+    Task<ICollection<Student>> ReadAllAsync();
 }
 
 
