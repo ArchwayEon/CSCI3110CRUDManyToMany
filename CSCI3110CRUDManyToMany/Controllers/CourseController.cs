@@ -14,6 +14,12 @@ public class CourseController : Controller
         _courseRepo = courseRepo;
     }
 
+    public async Task<IActionResult> Index()
+    {
+        var allCourses = await _courseRepo.ReadAllAsync();
+        return View(allCourses);
+    }
+
     public async Task<IActionResult> Register(
         [Bind(Prefix ="id")]string studentId)
     {
