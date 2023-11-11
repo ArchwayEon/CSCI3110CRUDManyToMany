@@ -11,7 +11,7 @@ public class Initializer
         _db = db;
     }
 
-    public void SeedDatabase()
+    public async Task SeedDatabaseAsync()
     {
         _db.Database.EnsureCreated();
 
@@ -31,8 +31,8 @@ public class Initializer
               { ENumber = "E00000004", FirstName = "Aban", LastName = "Hakim" }
         };
 
-        _db.Students.AddRange(students);
-        _db.SaveChanges();
+        await _db.Students.AddRangeAsync(students);
+        await _db.SaveChangesAsync();
 
         var courses = new List<Course>
         {
@@ -41,8 +41,8 @@ public class Initializer
           new Course { Code = "CSCI1260", CreditHours = 4 }
         };
 
-        _db.Courses.AddRange(courses);
-        _db.SaveChanges();
+        await _db.Courses.AddRangeAsync(courses);
+        await _db.SaveChangesAsync();
     }
 }
 

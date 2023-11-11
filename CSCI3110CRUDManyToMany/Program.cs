@@ -6,15 +6,14 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-      options.UseSqlServer(
-        builder.Configuration.GetConnectionString("DefaultConnection")));
+      options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<Initializer>();
 builder.Services.AddScoped<IStudentRepository, DbStudentRepository>();
 builder.Services.AddScoped<ICourseRepository, DbCourseRepository>();
 builder.Services.AddScoped<IStudentCourseRepository, DbStudentCourseRepository>();
 
 var app = builder.Build();
-SeedData(app);
+await SeedDataAsync(app);
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -37,19 +36,19 @@ app.MapControllerRoute(
 
 app.Run();
 
-static void SeedData(WebApplication app)
+static async Task SeedDataAsync(WebApplication app)
 {
 	using var scope = app.Services.CreateScope();
 	var services = scope.ServiceProvider;
 	try
 	{
 		var initializer = services.GetRequiredService<Initializer>();
-		initializer.SeedDatabase();
+		await initializer.SeedDatabaseAsync();
 	}
 	catch (Exception ex)
 	{
 		var logger = services.GetRequiredService<ILogger<Program>>();
-		logger.LogError($"An error occurred while seeding the database: {ex.Message}");
+		logger.LogError("An error occurred while seeding the database: {Message}", ex.Message);
 	}
 }
 
