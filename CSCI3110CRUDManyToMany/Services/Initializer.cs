@@ -21,14 +21,10 @@ public class Initializer
 
         var students = new List<Student>
         {
-           new Student
-              { ENumber = "E00000001", FirstName = "James", LastName = "Smith" },
-           new Student
-              { ENumber = "E00000002", FirstName = "Maria", LastName = "Garcia" },
-           new Student
-              { ENumber = "E00000003", FirstName = "Chen", LastName = "Li" },
-           new Student
-              { ENumber = "E00000004", FirstName = "Aban", LastName = "Hakim" }
+           new() { ENumber = "E00000001", FirstName = "James", LastName = "Smith" },
+           new() { ENumber = "E00000002", FirstName = "Maria", LastName = "Garcia" },
+           new() { ENumber = "E00000003", FirstName = "Chen", LastName = "Li" },
+           new() { ENumber = "E00000004", FirstName = "Aban", LastName = "Hakim" }
         };
 
         await _db.Students.AddRangeAsync(students);
@@ -36,9 +32,9 @@ public class Initializer
 
         var courses = new List<Course>
         {
-           new Course { Code = "CSCI3110", CreditHours = 3 },
-           new Course { Code = "CSCI1250", CreditHours = 4 },
-          new Course { Code = "CSCI1260", CreditHours = 4 }
+           new() { Code = "CSCI3110", CreditHours = 3 },
+           new() { Code = "CSCI1250", CreditHours = 4 },
+          new() { Code = "CSCI1260", CreditHours = 4 }
         };
 
         await _db.Courses.AddRangeAsync(courses);

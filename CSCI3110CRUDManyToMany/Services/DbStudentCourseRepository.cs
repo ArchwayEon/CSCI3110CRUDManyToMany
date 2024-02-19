@@ -64,7 +64,7 @@ public class DbStudentCourseRepository : IStudentCourseRepository
         };
         student.CourseGrades.Add(studentCourseGrade);
         course.StudentGrades.Add(studentCourseGrade);
-        _db.SaveChanges();
+        await _db.SaveChangesAsync();
         return studentCourseGrade;
     }
 
@@ -75,7 +75,7 @@ public class DbStudentCourseRepository : IStudentCourseRepository
         if(studentCourse != null)
         {
             studentCourse.LetterGrade = letterGrade;
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
         }
     }
 
@@ -87,7 +87,7 @@ public class DbStudentCourseRepository : IStudentCourseRepository
         var course = studentCourse!.Course;
         student!.CourseGrades.Remove(studentCourse);
         course!.StudentGrades.Remove(studentCourse);
-        _db.SaveChanges();
+        await _db.SaveChangesAsync();
     }
 }
 
