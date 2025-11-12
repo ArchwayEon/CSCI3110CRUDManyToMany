@@ -2,7 +2,6 @@
 using CSCI3110CRUDManyToMany.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
@@ -11,54 +10,77 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CSCI3110CRUDManyToMany.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220224202040_Mig01")]
-    partial class Mig01
+    [Migration("20251112200050_Mig1")]
+    partial class Mig1
     {
+        /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.2")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
-
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+            modelBuilder.HasAnnotation("ProductVersion", "9.0.11");
 
             modelBuilder.Entity("CSCI3110CRUDManyToMany.Models.Entities.Course", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("CreditHours")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
                     b.ToTable("Courses");
                 });
 
+            modelBuilder.Entity("CSCI3110CRUDManyToMany.Models.Entities.Internship", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("StudentENumber")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StudentENumber")
+                        .IsUnique();
+
+                    b.ToTable("Internships");
+                });
+
             modelBuilder.Entity("CSCI3110CRUDManyToMany.Models.Entities.Student", b =>
                 {
                     b.Property<string>("ENumber")
                         .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(32)
-                        .HasColumnType("nvarchar(32)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(32)
-                        .HasColumnType("nvarchar(32)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("ENumber");
 
@@ -69,21 +91,19 @@ namespace CSCI3110CRUDManyToMany.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("CourseId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("LetterGrade")
                         .IsRequired()
                         .HasMaxLength(2)
-                        .HasColumnType("nvarchar(2)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("StudentENumber")
                         .IsRequired()
-                        .HasColumnType("nvarchar(10)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -92,6 +112,17 @@ namespace CSCI3110CRUDManyToMany.Migrations
                     b.HasIndex("StudentENumber");
 
                     b.ToTable("StudentCourseGrades");
+                });
+
+            modelBuilder.Entity("CSCI3110CRUDManyToMany.Models.Entities.Internship", b =>
+                {
+                    b.HasOne("CSCI3110CRUDManyToMany.Models.Entities.Student", "Student")
+                        .WithOne("Internship")
+                        .HasForeignKey("CSCI3110CRUDManyToMany.Models.Entities.Internship", "StudentENumber")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("CSCI3110CRUDManyToMany.Models.Entities.StudentCourseGrade", b =>
@@ -121,6 +152,8 @@ namespace CSCI3110CRUDManyToMany.Migrations
             modelBuilder.Entity("CSCI3110CRUDManyToMany.Models.Entities.Student", b =>
                 {
                     b.Navigation("CourseGrades");
+
+                    b.Navigation("Internship");
                 });
 #pragma warning restore 612, 618
         }
