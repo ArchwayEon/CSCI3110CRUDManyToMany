@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+CSCI3110CRUDManyToMany/Data/StudentCourseDb.db-shm
+CSCI3110CRUDManyToMany/Data/StudentCourseDb.db-wal
+CSCI3110CRUDManyToMany/Data/StudentCourseDb.db
